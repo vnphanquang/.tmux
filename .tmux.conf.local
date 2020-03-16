@@ -295,7 +295,7 @@ bind-key C-a send-prefix
 
 # split panes horizontally with |
 bind | split-window -h
-bind -n M-\ split-window -h
+bind -n M-\\ split-window -h
 unbind %  
 # splits panes vertically with -
 bind - split-window -v
