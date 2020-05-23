@@ -180,7 +180,7 @@ tmux_conf_theme_right_separator_sub='\uE0B3'  #   PowerlineSymbols.otf font, see
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_vbar, #{battery_vbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}#{synchronized} #{?battery_status, #{battery_status},}#{?battery_vbar, #{battery_vbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} '
 
 # status left styleGIT_BRANCH_FEATURE_EMOJI
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -267,7 +267,7 @@ tmux_conf_theme_clock_style='24'
 #   - false (default)
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
-tmux_conf_copy_to_os_clipboard=false
+tmux_conf_copy_to_os_clipboard=true
 
 
 # -- user customizations -------------------------------------------------------
@@ -277,39 +277,104 @@ tmux_conf_copy_to_os_clipboard=false
 #set -g history-limit 10000
 
 # force Vi mode
-#   really you should export VISUAL or EDITOR environment variable, see manual
-#set -g status-keys vi
-#set -g mode-keys vi
+# really you should export VISUAL or EDITOR environment variable, see manual
+# set -g status-keys vi
+# set -g mode-keys vi
 
-######################
-##### KEY-BINDING ####
-######################
+####################### KEY-BINDING ########################
+# CAUTION: once called will unbind until manually reverted #
+############################################################
 
-# remap prefix from 'C-b' to 'C-a'
-unbind C-b
-set-option -g prefix C-a
-bind-key C-a send-prefix
-
-# set -gu prefix2
-# unbind C-a
+# remap prefix from 'C-b' to 'Tab'
+#unbind C-b 
+unbind C-Space
+set-option -g prefix C-Space
+bind C-Space send-prefix
 
 # split panes horizontally with |
 bind | split-window -h
-bind -n M-\ split-window -h
+bind -n M-\\ split-window -h
 unbind %  
 # splits panes vertically with -
 bind - split-window -v
 bind -n M-- split-window -v
 unbind '"'
 
-# pane navigation
-bind -n M-j select-pane -L  # left
-bind -n M-l select-pane -R  # right
-bind -n M-i select-pane -U  # up
-bind -n M-k select-pane -D  # down
+#========== pane navigation  ==========#
+unbind    -T  prefix  i
+bind  -r  -T  prefix  i   select-pane -U
+unbind    -T  root    M-i
+bind  -r  -T  root    M-i select-pane -U
 
-bind > swap-pane -D       # swap current pane with the next one
-bind < swap-pane -U       # swap current pane with the previous one
+unbind    -T  prefix  k
+bind  -r  -T  prefix  k   select-pane -D
+unbind    -T  root    M-k
+bind  -r  -T  root    M-k select-pane -D
+
+unbind    -T  prefix  j
+bind  -r  -T  prefix  j   select-pane -L
+unbind    -T  root    M-j
+bind  -r  -T  root    M-j select-pane -L
+
+unbind    -T  prefix  l
+bind  -r  -T  prefix  l   select-pane -R
+unbind    -T  root    M-l
+bind  -r  -T  root    M-l select-pane -R
+
+#========== pane resizing ==========#
+unbind    -T  prefix  M-i
+bind  -r  -T  prefix  M-i  resize-pane -U
+
+unbind    -T  prefix  M-k
+bind  -r  -T  prefix  M-k  resize-pane -D
+
+unbind    -T  prefix  M-j
+bind  -r  -T  prefix  M-j  resize-pane -L
+
+unbind    -T  prefix  M-l
+bind  -r  -T  prefix  M-l  resize-pane -R
+
+#========== pane swapping ==========#
+unbind  -T prefix   >
+unbind  -T prefix   <
+bind    -T prefix   >   swap-pane -D       # swap current pane with the next one
+bind    -T prefix   <   swap-pane -U       # swap current pane with the previous one
+
+#========== copy-mode cursor ==========#
+unbind  -T  copy-mode  i
+bind    -T  copy-mode  i  send-keys -X cursor-up
+
+unbind  -T  copy-mode  k
+bind    -T  copy-mode  k  send-keys -X cursor-down
+
+unbind  -T  copy-mode  j
+bind    -T  copy-mode  j  send-keys -X cursor-left
+
+unbind  -T  copy-mode  l
+bind    -T  copy-mode  l  send-keys -X cursor-right
+
+#========== copy-mode-vi cursor ==========#
+unbind  -T  copy-mode-vi  i
+bind    -T  copy-mode-vi  i     send-keys -X cursor-up
+
+unbind  -T  copy-mode-vi  k
+bind    -T  copy-mode-vi  k     send-keys -X cursor-down
+
+unbind  -T  copy-mode-vi  j
+bind    -T  copy-mode-vi  j     send-keys -X cursor-left
+
+unbind  -T  copy-mode-vi  l
+bind    -T  copy-mode-vi  l     send-keys -X cursor-right
+
+unbind  -T  copy-mode-vi  C-i
+bind    -T  copy-mode-vi  C-i   send-keys -X scroll-up
+
+unbind  -T  copy-mode-vi  C-k
+bind    -T  copy-mode-vi  C-k   send-keys -X scroll-down
+
+#========== synchronize panes ==========#
+unbind  -T  prefix  s
+bind    -T  prefix  s  set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
 
 
 ######################
