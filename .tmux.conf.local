@@ -274,12 +274,12 @@ tmux_conf_copy_to_os_clipboard=true
 # this is the place to override or undo settings
 
 # increase history size
-#set -g history-limit 10000
+set -g history-limit 5000
 
 # force Vi mode
 # really you should export VISUAL or EDITOR environment variable, see manual
-# set -g status-keys vi
-# set -g mode-keys vi
+set -g status-keys vi
+set -g mode-keys vi
 
 ####################### KEY-BINDING ########################
 # CAUTION: once called will unbind until manually reverted #
@@ -299,6 +299,10 @@ unbind %
 bind - split-window -v
 bind -n M-- split-window -v
 unbind '"'
+
+#========== root  ==========#
+unbind      -T  root    C-l
+bind-key    -T  root    C-l   send-keys C-l \; run-shell "sleep 0.1"
 
 #========== pane navigation  ==========#
 unbind    -T  prefix  i
@@ -340,20 +344,26 @@ unbind  -T prefix   <
 bind    -T prefix   >   swap-pane -D       # swap current pane with the next one
 bind    -T prefix   <   swap-pane -U       # swap current pane with the previous one
 
-#========== copy-mode cursor ==========#
-unbind  -T  copy-mode  i
-bind    -T  copy-mode  i  send-keys -X cursor-up
+#========== copy-mode ==========#
+unbind  -T  copy-mode     i
+bind    -T  copy-mode     i     send-keys -X cursor-up
 
-unbind  -T  copy-mode  k
-bind    -T  copy-mode  k  send-keys -X cursor-down
+unbind  -T  copy-mode     k
+bind    -T  copy-mode     k     send-keys -X cursor-down
 
-unbind  -T  copy-mode  j
-bind    -T  copy-mode  j  send-keys -X cursor-left
+unbind  -T  copy-mode     j
+bind    -T  copy-mode     j     send-keys -X cursor-left
 
-unbind  -T  copy-mode  l
-bind    -T  copy-mode  l  send-keys -X cursor-right
+unbind  -T  copy-mode     l
+bind    -T  copy-mode     l     send-keys -X cursor-right
 
-#========== copy-mode-vi cursor ==========#
+unbind  -T  copy-mode     Enter 
+bind    -T  copy-mode     Enter send-keys -X copy-pipe-and-cancel "xclip -i -selection clipboard > /dev/null 2>&1"
+
+unbind  -T  copy-mode     W
+bind    -T  copy-mode     W     send-keys -X select-word
+
+#========== copy-mode-vi ==========#
 unbind  -T  copy-mode-vi  i
 bind    -T  copy-mode-vi  i     send-keys -X cursor-up
 
@@ -371,6 +381,27 @@ bind    -T  copy-mode-vi  C-i   send-keys -X scroll-up
 
 unbind  -T  copy-mode-vi  C-k
 bind    -T  copy-mode-vi  C-k   send-keys -X scroll-down
+
+unbind  -T  copy-mode-vi  C-l
+bind    -T  copy-mode-vi  C-l   send-keys -X next-word
+
+unbind  -T  copy-mode-vi  C-j
+bind    -T  copy-mode-vi  C-j   send-keys -X previous-word
+
+unbind  -T  copy-mode     Enter 
+bind    -T  copy-mode     Enter send-keys -X copy-pipe-and-cancel "xclip -i -selection clipboard > /dev/null 2>&1"
+
+unbind  -T  copy-mode-vi  W
+bind    -T  copy-mode-vi  W     send-keys -X select-word
+
+unbind  -T  copy-mode-vi  q
+bind    -T  copy-mode-vi  q     send-keys -X stop-selection
+
+unbind  -T  copy-mode-vi  J
+bind    -T  copy-mode-vi  J     send-keys -X start-of-line
+
+unbind  -T  copy-mode-vi  C
+bind    -T  copy-mode-vi  C     send-keys -X copy-pipe-and-cancel "xargs -I {} tmux send-keys 'code -- \"{}\"'; tmux send-keys 'C-m'"
 
 #========== synchronize panes ==========#
 unbind  -T  prefix  s
@@ -391,19 +422,3 @@ set -g visual-activity off
 set -g visual-bell off
 set -g visual-silence off
 set -g bell-action none
-
-######################
-#   PLUGIN MANAGER   #
-######################
-
-# List of plugins
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-sensible'
-
-# Other examples:
-# set -g @plugin 'github_username/plugin_name'
-# set -g @plugin 'git@github.com/user/plugin'
-# set -g @plugin 'git@bitbucket.com/user/plugin'
-
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-run -b '~/.tmux/plugins/tpm/tpm'
