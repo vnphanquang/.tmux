@@ -378,7 +378,7 @@ bind    -T  prefix  s  set-window-option synchronize-panes\; display-message "sy
 
 
 ######################
-####### CONFIGS ######
+#      CONFIGS       #
 ######################
 
 # Enable mouse control (clickable windows, panes, resizable panes)
@@ -391,3 +391,19 @@ set -g visual-activity off
 set -g visual-bell off
 set -g visual-silence off
 set -g bell-action none
+
+######################
+#   PLUGIN MANAGER   #
+######################
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+# Other examples:
+# set -g @plugin 'github_username/plugin_name'
+# set -g @plugin 'git@github.com/user/plugin'
+# set -g @plugin 'git@bitbucket.com/user/plugin'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run -b '~/.tmux/plugins/tpm/tpm'
