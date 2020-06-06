@@ -16,3 +16,9 @@
 [submodule "plugins/tmux-sidebar"]
 	path = plugins/tmux-sidebar
 	url = https://github.com/tmux-plugins/tmux-sidebar.git
+[submodule "plugins/tmux-continuum"]
+	path = plugins/tmux-continuum
+	url = https://github.com/tmux-plugins/tmux-continuum
+[submodule "plugins/tmux-jump"]
+	path = plugins/tmux-jump
+	url = https://github.com/schasse/tmux-jump
