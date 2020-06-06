@@ -72,7 +72,7 @@ tmux_conf_theme_pane_active_indicator='#00afff'         # light blue
 
 # status line style
 tmux_conf_theme_message_fg='#000000'                    # black
-tmux_conf_theme_message_bg='#ffff00'                    # yellow
+tmux_conf_theme_message_bg='#FF6347'                    # yellow
 tmux_conf_theme_message_attr='bold'
 
 # status line command style (<prefix> : Escape)
@@ -280,133 +280,6 @@ set -g history-limit 5000
 # really you should export VISUAL or EDITOR environment variable, see manual
 set -g status-keys vi
 set -g mode-keys vi
-
-####################### KEY-BINDING ########################
-# CAUTION: once called will unbind until manually reverted #
-############################################################
-
-# remap prefix from 'C-b' to 'Tab'
-#unbind C-b 
-unbind C-Space
-set-option -g prefix C-Space
-bind C-Space send-prefix
-
-# split panes horizontally with |
-bind | split-window -h
-bind -n M-\\ split-window -h
-unbind %  
-# splits panes vertically with -
-bind - split-window -v
-bind -n M-- split-window -v
-unbind '"'
-
-#========== root  ==========#
-unbind      -T  root    C-l
-bind-key    -T  root    C-l   send-keys C-l \; run-shell "sleep 0.1"
-
-#========== pane navigation  ==========#
-unbind    -T  prefix  i
-bind  -r  -T  prefix  i   select-pane -U
-unbind    -T  root    M-i
-bind  -r  -T  root    M-i select-pane -U
-
-unbind    -T  prefix  k
-bind  -r  -T  prefix  k   select-pane -D
-unbind    -T  root    M-k
-bind  -r  -T  root    M-k select-pane -D
-
-unbind    -T  prefix  j
-bind  -r  -T  prefix  j   select-pane -L
-unbind    -T  root    M-j
-bind  -r  -T  root    M-j select-pane -L
-
-unbind    -T  prefix  l
-bind  -r  -T  prefix  l   select-pane -R
-unbind    -T  root    M-l
-bind  -r  -T  root    M-l select-pane -R
-
-#========== pane resizing ==========#
-unbind    -T  prefix  M-i
-bind  -r  -T  prefix  M-i  resize-pane -U
-
-unbind    -T  prefix  M-k
-bind  -r  -T  prefix  M-k  resize-pane -D
-
-unbind    -T  prefix  M-j
-bind  -r  -T  prefix  M-j  resize-pane -L
-
-unbind    -T  prefix  M-l
-bind  -r  -T  prefix  M-l  resize-pane -R
-
-#========== pane swapping ==========#
-unbind  -T prefix   >
-unbind  -T prefix   <
-bind    -T prefix   >   swap-pane -D       # swap current pane with the next one
-bind    -T prefix   <   swap-pane -U       # swap current pane with the previous one
-
-#========== copy-mode ==========#
-unbind  -T  copy-mode     i
-bind    -T  copy-mode     i     send-keys -X cursor-up
-
-unbind  -T  copy-mode     k
-bind    -T  copy-mode     k     send-keys -X cursor-down
-
-unbind  -T  copy-mode     j
-bind    -T  copy-mode     j     send-keys -X cursor-left
-
-unbind  -T  copy-mode     l
-bind    -T  copy-mode     l     send-keys -X cursor-right
-
-unbind  -T  copy-mode     Enter 
-bind    -T  copy-mode     Enter send-keys -X copy-pipe-and-cancel "xclip -i -selection clipboard > /dev/null 2>&1"
-
-unbind  -T  copy-mode     W
-bind    -T  copy-mode     W     send-keys -X select-word
-
-#========== copy-mode-vi ==========#
-unbind  -T  copy-mode-vi  i
-bind    -T  copy-mode-vi  i     send-keys -X cursor-up
-
-unbind  -T  copy-mode-vi  k
-bind    -T  copy-mode-vi  k     send-keys -X cursor-down
-
-unbind  -T  copy-mode-vi  j
-bind    -T  copy-mode-vi  j     send-keys -X cursor-left
-
-unbind  -T  copy-mode-vi  l
-bind    -T  copy-mode-vi  l     send-keys -X cursor-right
-
-unbind  -T  copy-mode-vi  C-i
-bind    -T  copy-mode-vi  C-i   send-keys -X scroll-up
-
-unbind  -T  copy-mode-vi  C-k
-bind    -T  copy-mode-vi  C-k   send-keys -X scroll-down
-
-unbind  -T  copy-mode-vi  C-l
-bind    -T  copy-mode-vi  C-l   send-keys -X next-word
-
-unbind  -T  copy-mode-vi  C-j
-bind    -T  copy-mode-vi  C-j   send-keys -X previous-word
-
-unbind  -T  copy-mode     Enter 
-bind    -T  copy-mode     Enter send-keys -X copy-pipe-and-cancel "xclip -i -selection clipboard > /dev/null 2>&1"
-
-unbind  -T  copy-mode-vi  W
-bind    -T  copy-mode-vi  W     send-keys -X select-word
-
-unbind  -T  copy-mode-vi  q
-bind    -T  copy-mode-vi  q     send-keys -X stop-selection
-
-unbind  -T  copy-mode-vi  J
-bind    -T  copy-mode-vi  J     send-keys -X start-of-line
-
-unbind  -T  copy-mode-vi  C
-bind    -T  copy-mode-vi  C     send-keys -X copy-pipe-and-cancel "xargs -I {} tmux send-keys 'code -- \"{}\"'; tmux send-keys 'C-m'"
-
-#========== synchronize panes ==========#
-unbind  -T  prefix  s
-bind    -T  prefix  s  set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
-
 
 ######################
 #      CONFIGS       #
