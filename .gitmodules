@@ -22,3 +22,6 @@
 [submodule "plugins/tmux-jump"]
 	path = plugins/tmux-jump
 	url = https://github.com/schasse/tmux-jump
+[submodule "plugins/gitmux"]
+	path = plugins/gitmux
+	url = https://github.com/0phoff/gitmux
