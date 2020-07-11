@@ -184,7 +184,7 @@ LEFT_CURLY_BRACE="{"
 RIGHT_CURLY_BRACE="}"
 
 tmux_conf_theme_status_left=' #S | \
-#{?GITMUX_REPO,🌱 #[fg=green]#{GITMUX_BRANCH} #{?GITMUX_CLEAN,#[fg=green]✓,#{?#{!=:#{GITMUX_STASHED},0},#{LEFT_CURLY_BRACE}#{GITMUX_STASHED}#{RIGHT_CURLY_BRACE} ,}#{?#{!=:#{GITMUX_COMMITS_BEHIND},0},↓:#{GITMUX_COMMITS_BEHIND} ,}#{?#{!=:#{GITMUX_COMMITS_AHEAD},0},↑:#{GITMUX_COMMITS_AHEAD} ,}#{?#{!=:#{GITMUX_STAGED},0},S:#{GITMUX_STAGED} ,}#{?#{!=:#{GITMUX_CHANGED},0},U:#{GITMUX_CHANGED} ,}#{?#{!=:#{GITMUX_UNTRACKED},0},?:#{GITMUX_UNTRACKED} ,}#{?#{!=:#{GITMUX_CONFLICTS},0},C:#{GITMUX_CONFLICTS} ,}#[fg=red]✗},} #[fg=green]'
+#{?GITMUX_REPO,🌱 #[fg=green]#{GITMUX_BRANCH} #{?GITMUX_CLEAN,#[fg=green]✓,#{?#{>:#{GITMUX_STASHED},0},#{LEFT_CURLY_BRACE}#{GITMUX_STASHED}#{RIGHT_CURLY_BRACE} ,}#{?#{>:#{GITMUX_COMMITS_BEHIND},0},↓:#{GITMUX_COMMITS_BEHIND} ,}#{?#{>:#{GITMUX_COMMITS_AHEAD},1},↑:#{GITMUX_COMMITS_AHEAD} ,}#{?#{>:#{GITMUX_STAGED},0},S:#{GITMUX_STAGED} ,}#{?#{>:#{GITMUX_CHANGED},0},U:#{GITMUX_CHANGED} ,}#{?#{>:#{GITMUX_UNTRACKED},0},?:#{GITMUX_UNTRACKED} ,}#{?#{>:#{GITMUX_CONFLICTS},0},C:#{GITMUX_CONFLICTS} ,}#[fg=red]✗},} #[fg=green]'
 
 # ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
 
